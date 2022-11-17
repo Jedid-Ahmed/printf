@@ -37,7 +37,7 @@ int _printf(const char *format, ...)
 			if (*(format + i) == '%')
 				processing_escape = TRUE;
 			else
-				_putchar(*(format + i));
+				_putchar(*(format + i+1));
 		}
 	}
 	write_to_buffer(0, 1);
