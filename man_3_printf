@@ -8,7 +8,7 @@ _printf
 .SH SYNOPSIS
 .P
 .B #include
-"holberton.h"
+"main.h"
 
 .I
 int
@@ -77,12 +77,12 @@ A '%' is written.  No argument is converted.  The complete conversion specificat
 .SH EXAMPLES
 
 .P
-#include "holberton.h"
+#include "main.h"
 
 _printf("%s", "Holberton");
 
 .SH AUTHORS
 .P
-Hedy OUAHES <hedy.ouahes@holbertonschool.com>
+Hedy OUAHES <hedy.ouahes@mainschool.com>
 .P
-Adrien MILLOT <adrien.millot@holbertonschool.com>
+Adrien MILLOT <adrien.millot@mainschool.com>
