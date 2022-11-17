@@ -1,4 +1,10 @@
-#include "main.h"
+/*
+ * File: convert_strings.c
+ * Auth: Brennan D Baraban
+ *       Michael Klein
+ */
+
+#include "holberton.h"
 
 unsigned int convert_s(va_list args, buffer_t *output,
 		unsigned char flags, int wid, int prec, unsigned char len);
@@ -94,7 +100,7 @@ unsigned int convert_S(va_list args, buffer_t *output,
 			if (*(str + index) < 16)
 				ret += _memcpy(output, &zero, 1);
 			ret += convert_ubase(output, *(str + index),
-						 "0123456789ABCDEF", flags, 0, 0);
+					     "0123456789ABCDEF", flags, 0, 0);
 			continue;
 		}
 		ret += _memcpy(output, (str + index), 1);
