@@ -1,102 +1,326 @@
-.TH man 3 "17 April 2022" "ALX SOFTWARE ENGINEERING" "_PRINTF"
+.TH _PRINTF 3 "20 MAR 2017" LOCAL "HOLBERTON SCHOOL BATCH 2"
 .SH NAME
-.B _printf
-- formatted output conversion
+_printf \- formatted output conversion
 .SH SYNOPSIS
-.B #include \(dqholberton.h\(dq
-.sp
-.B int _printf(const char *
-.I format
-.B , ...);
+.B #include "main.h"
+
+\fBint _printf(const char *\fR\fIformat\fR\fB, ...);\fR
+
 .SH DESCRIPTION
-The function _printf is a variadic function that produces a string according to a
-.I format
-and prints it to the standard output, much like the C standard library function printf. It can receive a variable number of arguments.
-This function has been created in the context of a first-year project for Holberton School.
+The
+.BR _printf()
+function produces output according to a format as described below. The
+.BR _printf()
+function writes output to stdout, the standard output stream.
+
+.SS Format of the format string
+The format string is a character string, beginning and ending
+in its initial shift state, if any.
+The format string is composed of zero or more directives: ordinary
+characters (not
+.BR % ),
+which are copied unchanged to the output stream;
+and conversion specifications, each of which results in fetching zero or
+more subsequent arguments.
 .sp
-.B Return value
-.sp
-On success, _printf returns the number of characters printed. If
-.I format
-is NULL or if the functions encounters any errors, it returns -1.
-.sp
-.B Format of the format string
-.sp
-The format string can contain any characters, just like a regular string, in double quotes, which will be printed as is. For example, _printf(\(dqHello\(dq) will print: Hello.
-However, this format string can contain
-.I conversion specifiers.
-These start with a %, and are followed with a character (see
-.I conversion specifiers
-). Special characters like a new line are escaped, for example _printf(\(dq\\n\(dq) will print a new line.
-.sp
-.B Conversion specifiers
-.sp
-These are the characters that specify the type of the variable that needs to be printed. The variables to be printed are separated from the format string with a comma. Each variable passed to _printf need to have a conversion specifier.
-.sp
-.B i, d
-- Both these specifiers are for
-.I int
-arguments. They convert the variable to a decimal number, positive or negative.
-.sp
-.B c
-- Prints a
-.I single character.
-.sp
-.B s
-- Prints an entire
-.I string.
-.sp
-.B u
-- Prints an
-.I unsigned int.
-.sp
-.B x, X
-- Respecively print a number in lowercase and uppercase
-.I hexadecimal
-base.
-.sp
-.B o, b
-- Respectively print a number in
-.I octal
-and
-.I binary
-base.
-.sp
-.B %
-- Acts like an escape for the character %. To print \(dq%\(dq, the format string should contain \(dq%%\(dq.
-.sp
-.B r, R
-- Respectively print a string in reverse and in ROT13 encryption.
-.sp
-.B S
-- Prints a string, but non-printable characters are printed this way: \\x, followed by the ASCII code value in uppercase hexadecimal.
-.sp
-.B p
-- Prints an address, given by a pointer variable
-.sp
-.B Flag characters for conversion specifiers
-.sp
-.B +
-- Prints a plus sign in front of positive signed integers and a minus sign in front of negative signed integers.
- + overrides a space when both flags are given.
-.sp
-.B ' '
-- Prints a space in front of signed integers.
-.sp
+Each conversion specification is introduced by
+the character
+.BR % ,
+and ends with a
+.IR "conversion specifier" .
+.IR flags ,
+an optional minimum
+.IR "field width" ,
+an optional
+.I precision
+and an optional
+.IR "length modifier" .
+
+.SS Conversion specifiers
+.TP
+c
+print a single character
+.TP
+s
+print a string of characters
+.TP
+%
+print a percent sign (\\% also works)
+.TP
+d
+print a decimal (base 10) number
+.TP
+i
+print an integer in base 10
+.TP
+b
+unsigned int argument is converted to binary
+.TP
+u
+print an unsigned decimal (base 10) number
+.TP
+o
+print a number in octal (base 8)
+.TP
+x
+print a number in hexidecimal (base 16)
+
+.SS The flag characters
+The character % is followed by zero or more of the following flags:
+.TP
 .B #
-- Modifier for unsigned conversions. For x, prepends \(dq0x\(dq, and for X, prepends \(dq0X\(dq. For o, if the converted number doesn't already begin with a 0, prepends a 0.
-.sp
-.SH SEE ALSO
-.I printf(3)
-.I _putchar.c
+The value should be converted to an "alternate form".
+For
+.B o
+conversions, the first character of the output string is made zero
+(by prefixing a 0 if it was not zero already).
+For
+.B x
+and
+.B X
+conversions, a nonzero result has the string "0x" (or "0X" for
+.B X
+conversions) prepended to it.
+For
+.BR a ,
+.BR A ,
+.BR e ,
+.BR E ,
+.BR f ,
+.BR F ,
+.BR g ,
+and
+.B G
+conversions, the result will always contain a decimal point, even if no
+digits follow it (normally, a decimal point appears in the results of th\
+ose
+conversions only if a digit follows).
+For
+.B g
+and
+.B G
+conversions, trailing zeros are not removed from the result as they woul\
+d
+otherwise be.
+For other conversions, the result is undefined.
+.TP
+.B \&0
+The value should be zero padded.
+For
+.BR d ,
+.BR i ,
+.BR o ,
+.BR u ,
+.BR x ,
+.BR X ,
+.BR a ,
+.BR A ,
+.BR e ,
+.BR E ,
+.BR f ,
+.BR F ,
+.BR g ,
+and
+.B G
+conversions, the converted value is padded on the left with zeros rather
+than blanks.
+If the
+.B \&0
+and
+.B \-
+flags both appear, the
+.B \&0
+flag is ignored.
+If a precision is given with a numeric conversion
+.RB ( d ,
+.BR i ,
+.BR o ,
+.BR u ,
+.BR x ,
+and
+.BR X ),
+the
+.B \&0
+flag is ignored.
+For other conversions, the behavior is undefined.
+.TP
+.B \-
+The converted value is to be left adjusted on the field boundary.
+(The default is right justification.)
+Except for
+.B n
+conversions, the converted value is padded on the right with blanks, rat\
+her
+than on the left with blanks or zeros.
+A
+.B \-
+overrides a
+.B \&0
+if both are given.
+.TP
+.B \(aq \(aq
+(a space) A blank should be left before a positive number
+(or empty string) produced by a signed conversion.
+.TP
+.B +
+A sign (+ or \-) should always be placed before a number produced by a signed conversion.
+By default a sign is used only for negative numbers.
+A
+.B +
+overrides a space if both are used.
+.PP
+.\"The five flag characters above are defined in the C standard.
+.\"
+.\".TP
+.\"X
+.\".TP
+.\"S
+.\".TP
+.\".TP
+.\"p
+.\".TP
+.\"l
+.\".TP
+.\"h
+
+.SH RETURN VALUE
+Upon successful return, these functions return the number of characters printed (excluding the null byte used to end output to strings).
+.\".SH ERRORS
 .SH NOTES
-_printf uses a custom character printing function called _putchar, that uses the system call write(). 
-_putchar uses a static buffer of 1024 bytes and a static incrementing variable. 
-That way, everytime _putchar is called inside _printf, the character is stored inside the buffer and the function moves to the next character, 
-until _printf calls _putchar(-1), which \(dqflushes\(dq the buffer and resets the incrementing variable to 0. 
-That way, _putchar only needs to call write one time, passing to it the whole buffer and the number of bytes in it, which is given by the value of the incrementing variable.
-.sp
+.PP
+This is a group project completed for
+.UR https://www.mainschool.com/
+Holberton School
+.UE .
+This custom implementation of
+.B printf
+from the standard library represents an application of all C programming knowledge that students have acquired since starting at Holberton School on January 30, 2017.
+.SS About Holberton School
+Holberton School is a project-based alternative to college for the next generation of software engineers. Using project-based learning and peer learning, our mission is to train the best software engineers of their generation.
+
+At Holberton School, there are no formal teachers and no formal courses. Instead, everything is project centered. We give our students increasingly difficult programming challenges to solve, and give them minimal initial directions on how to solve them. As a consequence, students naturally look for the theory and tools they need, understand them, use them, work together, and help each other.
+
 .SH BUGS
-_printf does not take care of length and precision modifiers yet. For example, _printf(\(dq%hx\(dq) will not produce the same output as the call to the standard library printf.
+Report _printf bugs to authors (contact information listed below)
+.\".br
+.\".br
+.\"Report printf translation bugs to <http://translationproject.org/team/>
+.SH EXAMPLE
+.PP
+To print
+.I negative signed integer
+:
+.in +4n
+.nf
+.fi
+.in
+    _printf("Negative:[%d]\n", -762534);
+.PP
+To print
+.I unsigned integer
+:
+.in +4n
+.nf
+.fi
+.in
+    _printf("Unsigned:[%u]\n", ui);
+.PP
+To print
+.I unsigned octal
+:
+.in +4n
+.nf
+.fi
+.in
+    _printf("Unsigned octal:[%o]\n", ui);
+.PP
+To print
+.I unsigned hexadecimal
+:
+.in +4n
+.nf
+.fi
+.in
+    _printf("Unsigned hexadecimal:[%x, %X]\n", ui, ui);
+.PP
+To print
+.I character
+:
+.in +4n
+.nf
+.fi
+.in
+    _printf("Character:[%c]\n", 'H');
+.PP
+To print
+.I string
+:
+.in +4n
+.nf
+.fi
+.in
+    _printf("String:[%s]\n", "I am a string !");
+.PP
+To print
+.I pointer address
+:
+.in +4n
+.nf
+.fi
+.in
+    _printf("Address:[%p]\n", addr);
+
 .SH AUTHORS
-em432
+.SS Bobby Yang
+.UR https://github.com/glyif/
+Github
+.UE
+
+.UR https://twitter.com/bobstermyang
+Twitter
+.UE
+
+.SS Elaine Yeung
+.UR https://github.com/yeungegs/
+Github
+.UE
+
+.UR https://twitter.com/egsy
+Twitter
+.UE
+.TS
+center, box invis, tab(:);
+l s
+l
+l.
+/..####...##......##.....
+/.##..##..##......##.....
+/.######..##......##.....
+/.##..##..##......##.....
+/.##..##..######..######.
+/........................
+/.##...##..######..##..##.
+/.###.###..##......###.##.
+/.##.#.##..####....##.###.
+/.##...##..##......##..##.
+/.##...##..######..##..##.
+/.........................
+/.##...##..##..##...####..######.
+/.###.###..##..##..##.......##...
+/.##.#.##..##..##...####....##...
+/.##...##..##..##......##...##...
+/.##...##...####....####....##...
+/................................
+/.#####...######..######.
+/.##..##....##....##.....
+/.##..##....##....####...
+/.##..##....##....##.....
+/.#####...######..######.
+/........................
+.TE
+.ce
+(...while writing _printf)
+
+.SH SEE ALSO
+.BR printf (1),
+.BR printf (3)
